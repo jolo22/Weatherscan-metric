@@ -15,7 +15,9 @@
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
   <script src='https://unpkg.com/maplibre-gl@2.1.7/dist/maplibre-gl.js'></script>
   <link href='https://unpkg.com/maplibre-gl@2.1.7/dist/maplibre-gl.css' rel='stylesheet' />
-
+  <link  type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" rel="stylesheet" />
+  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
+  
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -44,6 +46,8 @@
 
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/newweathermanager.js"></script>
+
+
 <div id="startup" class="settings">
   <div class="blackbar">
     <div id="introdetails" class="introtext" style="display: ">
@@ -488,8 +492,9 @@
   </div>
 
 <div id="main" class="container">
+  
 
-  <img id="template" src="images/template-4k.png"/>
+  <img id="template" src="images/template-4knologo.png"/>
   <div id="info-slides-bg"></div>
     <div id="info-slides-container">
 
@@ -1006,7 +1011,7 @@
 
       <!-- Intros -->
       <div class="info-slide city-slide-intro" style="display:none">
-        <div class="weatherscancopyright" style="display:none"> <span class="copyrighttext"> Weatherscan is brought to you by The Weather Channel®<br> and MIDCO </span></div>
+        <div class="weatherscancopyright" style="display:none"> <span class="copyrighttext"> Weatherscan is brought to you by The Weather Channel®<br> and Blue Ridge Communications </span></div>
         <div class='cityaccent viii curve' style="display:none"></div>
         <div class='cityaccent ii curve' style="display:none"></div>
         <div class='cityaccent i curve' style="display:none"></div>
@@ -1130,6 +1135,20 @@
         <div class='accent ix curve' style="display:none"></div>
         <div class='weatherscanmarquee' style="display:none">weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan</div>
         <div class='segment' style="display:none">Weather & Your Health</div>
+      </div>
+	    <div class="info-slide traffic-slide-intro" style="display:none">
+        <div class='accent i curve' style="display:none"></div>
+        <div class='accent ii curve' style="display:none"></div>
+        <div class='accent iii curve' style="display:none"></div>
+        <div class='accent iv curve' style="display:none"></div>
+        <div class='accent v curve' style="display:none"></div>
+        <div class='accent vi curve' style="display:none"></div>
+        <div class='accentviishadow curve'></div>
+        <div class='accentvii curve'></div>
+        <div class='accent viii curve' style="display:none"></div>
+        <div class='accent ix curve' style="display:none"></div>
+        <div class='weatherscanmarquee' style="display:none">weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan  weatherscan</div>
+        <div class='segment' style="display:none">Traffic Report</div>
       </div>
       <!-- AIRPORT -->
       <div class="info-slide airport-slide" style="display: none">
@@ -1289,6 +1308,47 @@
     </div>
   </div>
 
+    <!-- TRAFFIC -->
+    <div class="info-slide traffic" style="display: none">
+	    <div class="info-subheader">
+          <span id="subhead-titlei"></span><span id="subhead-city"></span>
+	    </div>
+	  <div class="info-subheadershadowfix">
+	    <span class="subhead-title">Traffic Report</span>
+	  </div>
+	  <div class='tempunavailable' style="display: none">Temporarily Unavailable</div>
+    
+    <div class="info-slide-content traffic-overview" style="display: none"> 
+        <div class='thing'><div class='thingbg'></div><div class='thingtext' id="traffictext">
+          <div class='box' id='clear' style="background-color:#3DD135"></div>
+          <div class='traffictext' id='textclear'>Clear</div>
+          <div class='box' id='moderate' style="background-color:#E6EC46;top: 19px;left: 23%;"></div>
+          <div class='traffictext' id='textmoderate' style="top: -33px;left: 20%;">Moderate</div>
+          <div class='box' id='heavy' style="background-color:#FE2C2D;top: 19px;left: 45%;"></div>
+          <div class='traffictext' id='textheavy' style="top: -67px;left: 43.9%;">Heavy</div>
+          <div class='box' id='unavailable' style="background-color:#838A86;top: 19px;left: 62%;"></div>
+          <div class='traffictext' id='textunavailable' style="top: -101px;left: 62.5%;">Unavailable</div>
+        </div>
+        </div>
+        <div id="trafmap"></div><div id="trafmapbox"></div>
+        <div class="frost-pane">
+          <div class="frost-panebg"></div>
+        </div>
+       
+    </div>  
+	  <div class='info-slide-content traffic-report' style="display: none">
+      <div class='thing-top'><div class='thingbg'></div><div class='thingtext'></div></div>
+      <div class="impact-top"></div><div class="description-top"></div>
+      <div class="frost-pane top"></div>
+      <div class='thing-bot'><div class='thingbg'></div><div class='thingtext'></div></div>
+      <div class="frost-pane bot"></div>
+      <div class="impact-bot"></div><div class="description-bot"></div>
+      <div class="credit">Traffic from: TomTom Traffic</div>
+      <div class="frost-pane blank"></div>
+	</div>
+</div>
+
+  <!-- HEALTH -->
   <div class="info-slide health" style="display: none">
     <div class="info-subheader">
       <span id="subhead-titlei"></span><span id="subhead-city"></span>
@@ -2114,11 +2174,8 @@
   <img id="arrow-img" src="images/now.png"/>
 
   <div id="marquee2" class="marquee">
-    You are watching an emulation of the Weatherscan IntelliStar system. Weatherscan is a digital cable and satellite
-    television network that is owned by a consortium owned in turn by NBCUniversal and investment firms The Blackstone
-    Group and Bain Capital. A spinoff of The Weather Channel, Weatherscan features uninterrupted local weather
-    information in graphical format on a continuous loop that is generated by an IntelliStar unit installed at the cable
-    provider's headend; unlike The Weather Channel, Weatherscan does not feature on-air talent of any kind.
+    With Comcast Spotlight, utilize the impact of interactive advertising. Specifically target areas of New Jersey on TV with commercials 
+	on networks like ESPN and TNT - and on the internet at XFINITY.com and FoxNews.com. For your custom advertising solution, call 244-2122.
   </div>
   <div class="marqueeheadersevere" style="display:none">SEVERE THUNDERSTORM WARNING</div>
   <div id="marqueeSevere" class="marquee" style="display:none">
