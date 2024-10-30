@@ -71,6 +71,8 @@ setInterval(
 //location pull
 var maincitycoords = {name:"",lat:"",lon:""}, marinelocation,
 locList = [], citySlideList = [], state, ccTickerCitiesList = [];
+var trafficcoords1 = {lat:"",lon:""};
+var trafficcoords2 = {lat:"",lon:""};
 
 
   //If there is a location inputted, use that.
@@ -87,11 +89,16 @@ function getMainLoc(configFailed) {
       $("#locationname").text("location name: "+data.location.displayName[0])
       maincitycoords.displayname = data.location.displayName[0]
       state = data.location.adminDistrict[0];
+      trafficcoords1.lat = data.location.latitude[0]-0.3885
+      trafficcoords1.lon = data.location.longitude[0]-0.3885
+      trafficcoords2.lat = data.location.latitude[0]+0.3885
+      trafficcoords2.lon = data.location.longitude[0]+0.3885
       //init data
       getStatePopularCities(state, true)
       grabalmanacSlidesData()
       grabHealthData()
       grabSideandLowerBarData()
+      grabTrafficData()
     });
   } else if (locationSettings.mainLocation.searchQuery.type && configFailed != true) {
     if (locationSettings.mainLocation.searchQuery.type == "geocode") {
@@ -103,11 +110,15 @@ function getMainLoc(configFailed) {
         maincitycoords.displayname = ((locationSettings.mainLocation.displayName) ? locationSettings.mainLocation.displayName : data.location.displayName)
         $("#locationname").text("location name: "+maincitycoords.displayname)
         state = data.location.adminDistrict[cidx];
-
+        trafficcoords1.lat = data.location.latitude-=0.3885
+        trafficcoords1.lon = data.location.longitude-=0.3885
+        trafficcoords2.lat = data.location.latitude+=0.3885
+        trafficcoords2.lon = data.location.longitude+=0.3885
         getStatePopularCities(state, true)
         grabalmanacSlidesData()
         grabHealthData()
         grabSideandLowerBarData()
+        grabTrafficData()
       });
     } else {
       $.getJSON("https://api.weather.com/v3/location/search?query="+locationSettings.mainLocation.searchQuery.val+"&locationType="+locationSettings.mainLocation.searchQuery.type+"&fuzzyMatch="+locationSettings.mainLocation.searchQuery.fuzzy+((locationSettings.mainLocation.searchQuery.country) ? "&countryCode="+locationSettings.mainLocation.searchQuery.country : "")+((locationSettings.mainLocation.searchQuery.state) ? "&adminDistrictCode="+locationSettings.mainLocation.searchQuery.state : "")+"&language=en-US&format=json&apiKey=" + api_key, function(data) {
@@ -116,6 +127,10 @@ function getMainLoc(configFailed) {
           maincitycoords.lat = data.location.latitude[cidx]
           maincitycoords.lon = data.location.longitude[cidx]
           maincitycoords.name = data.location.displayName[cidx]
+          trafficcoord1.lat = data.location.latitude[cidx]-=0.3885
+          trafficcoord1.lon = data.location.longitude[cidx]-=0.3885
+          trafficcoord2.lat = data.location.latitude[cidx]+=0.3885
+          trafficcoord2.lon = data.location.longitude[cidx]+=0.3885
           maincitycoords.displayname = ((locationSettings.mainLocation.displayName) ? locationSettings.mainLocation.displayName : data.location.displayName[cidx])
           $("#locationname").text("location name: "+maincitycoords.displayname)
           state = data.location.adminDistrict[cidx];
@@ -124,6 +139,7 @@ function getMainLoc(configFailed) {
           grabalmanacSlidesData()
           grabHealthData()
           grabSideandLowerBarData()
+          grabTrafficData()
       });
     }
   } else {
@@ -135,12 +151,18 @@ function getMainLoc(configFailed) {
       maincitycoords.displayname = data.city
       maincitycoords.lat = data.lat
       maincitycoords.lon = data.lon
+      trafficcoords1.lat = data.lat -= 0.3885
+      trafficcoords1.lon = data.lon -= 0.3885
+      trafficcoords2.lat = data.lat += 0.3885
+      trafficcoords2.lon = data.lon += 0.3885
+
       state = data.regionName
       //init data
       getStatePopularCities(state, true)
       grabalmanacSlidesData()
       grabHealthData()
       grabSideandLowerBarData()
+      grabTrafficData()
     });
 
   }
@@ -348,6 +370,11 @@ var weatherInfo = { currentCond: {
     marqueewarnings:[],
     severeweathermode: false
     //{name:"", desc:"", status:"", significance:""}
+  },trafficIncidents: {
+    enabled: false,
+    pages: 0, //max 3
+    incidentcount: 0,
+    incidents: [],
   }, healthforecast: {noReport:false, displayname:"",dayidx:0, day:"", high:"", low:"", precipChance:"", humid:"", wind:"",windspeed:"", icon:""
   }, healthPollen: {noReport:false, displayname:"", total:"", totalcat:"", date:"", types:[
     {type:"tree", treetype:"", pollenidx:""},
@@ -408,6 +435,7 @@ var weatherInfo = { currentCond: {
   ccticker: {noReportCC:false,noReportFC:false,noReportAC:false,arrow:"",ccLocs:[],ccairportdelays:[]},
   radarTempUnavialable: false,
   radarWinterLegend: false,
+  trafficMapUnavailable: false,
   reboot: false,
 }
 
@@ -978,9 +1006,7 @@ function grabalmanacSlidesData() {
     });
     var phasesfound = 0;
     $.getJSON(`https://www.icalendar37.net/lunar/api/?lang=en&month=${dateFns.format(new Date(),"M")}&year=${dateFns.format(new Date(),"YYYY")}`, function(data) {
-      console.log('test')
       for (phase in data.phase) {
-        console.log(phasesfound)
         if (data.phase[phase].isPhaseLimit && phasesfound < 4 && phase > parseInt(dateFns.format(new Date(),"D"))) {
           weatherInfo.almanac.moonphases[phasesfound].name = {"new moon": "NEW", "first quarter": "FIRST", "full moon": "FULL", "last quarter": "LAST"}[(data.phase[phase].phaseName).toLowerCase()]
           weatherInfo.almanac.moonphases[phasesfound].date = String(data.monthName).slice(0,3) + " " + phase
@@ -995,7 +1021,6 @@ function grabalmanacSlidesData() {
       $.getJSON(`https://www.icalendar37.net/lunar/api/?lang=en&month=${dateFns.format((dateFns.addMonths(new Date(),1)),"M")}&year=${dateFns.format(dateFns.addMonths(new Date(),1),"YYYY")}`, function(data) {
         for (phase in data.phase) {
           if (data.phase[phase].isPhaseLimit && phasesfound < 4) {
-            console.log(phasesfound)
             weatherInfo.almanac.moonphases[phasesfound].name = {"new moon": "NEW", "first quarter": "FIRST", "full moon": "FULL", "last quarter": "LAST"}[(data.phase[phase].phaseName).toLowerCase()]
             weatherInfo.almanac.moonphases[phasesfound].date = String(data.monthName).slice(0,3) + " " + phase
             phasesfound += 1;
@@ -1254,6 +1279,33 @@ function grabAirportData() {
   });
 }
 
+//traffic pull
+function grabTrafficData() {
+  var trafurl = 'https://api.tomtom.com/traffic/services/5/incidentDetails?bbox='+trafficcoords1.lon+'%2C'+trafficcoords1.lat+'%2C'+trafficcoords2.lon+'%2C'+trafficcoords2.lat+'&fields=%7Bincidents%7Btype%2Cgeometry%7Btype%7D%2Cproperties%7BiconCategory%2Cevents%7Bdescription%7D%2Cfrom%2Cto%2Ctmc%7Bdirection%7D%2CmagnitudeOfDelay%7D%7D%7D&language=en-US&categoryFilter=1%2C9&timeValidityFilter=present&key='+ traf_key
+  $.getJSON(trafurl, function(data) {
+    if (data.incidents.length === 0) {
+      //weatherInfo.trafficIncidents.enabled == false;
+ 
+    } else {
+      weatherInfo.trafficIncidents.enabled = true
+      weatherInfo.trafficIncidents.incidentcount = data.incidents.length
+      for (var i = 0; i < 6; i++) {
+        var inclist = {type:"", where:"", impact:"", from:"", to:"", desc:"", title:"", fulldesc:""};
+      inclist.type = ((data.incidents[i].properties.iconCategory === 9) ? "Construction" : "Incident" )
+      inclist.where = data.incidents[i].properties.from;
+      inclist.impact = ((data.incidents[i].properties.magnitudeOfDelay === 2) ? "MEDIUM IMPACT " : (data.incidents[i].properties.magnitudeOfDelay === 3) ? "HIGH IMPACT " : "LOW IMPACT ");
+      inclist.from = data.incidents[i].properties.from;
+      inclist.to = data.incidents[i].properties.to;
+      inclist.desc = data.incidents[i].properties.events[0].description.toLowerCase();
+      inclist.title = inclist.type + ", " + inclist.where
+      inclist.fulldesc = ((data.incidents[i].properties.magnitudeOfDelay === 2) ? "               " + "- from " + inclist.from + " to " + inclist.to + " - " + inclist.desc : (data.incidents[i].properties.magnitudeOfDelay === 3) ? "             " + "- from " + inclist.from + " to " + inclist.to + " - " + inclist.desc : "            " + "- from " + inclist.from + " to " + inclist.to + " - " + inclist.desc);
+      weatherInfo.trafficIncidents.incidents.push(inclist);
+    } 
+  }
+   
+  })
+}
+
 function pullCCTickerData() {
   var ccurl = 'https://api.weather.com/v3/aggcommon/v3-wx-forecast-daily-5day;v3-wx-observations-current;v3-location-point?geocodes=';
   // ajax the latest observation
@@ -1292,6 +1344,7 @@ setInterval(function(){
 var loops, slides;
 setTimeout(function() {
   initBasemaps()
+  trafficMap()
   map.on('load', function() {
     loadRadarImages('radar-1')
   });
