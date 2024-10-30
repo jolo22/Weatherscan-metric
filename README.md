@@ -2,7 +2,9 @@
 Weatherscan simulation in HTML/JS/CSS.
 
 Modified to Metric Units by me. Some codes are modified to better suit my location (Philippines). 
+<br>
 Traffic Addition by https://github.com/TheGoldDiamond9/weatherscan-traffic/
+<br>
 Maintained by Buffbears.
 
 ## Donate:
