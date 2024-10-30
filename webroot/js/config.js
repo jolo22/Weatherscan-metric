@@ -1,9 +1,9 @@
 //Some of the settings may or may not work as this is not a fully completed update. Mainly Appearance settings and weather variables that arent finished.
 //Input API Keys below. If no API is inputted, sim will default to no report.
 var codeval
-var api_key = '<your-api-key>'; //Obtain from Weather.com
-var map_key = '<your-map-key>'; //Obtain from Mapbox
-var traf_key = '<your-traffic-key>'; //Obtain from TomTom
+var api_key = 'e1f10a1e78da46f5b10a1e78da96f525'; //Obtain from Weather.com
+var map_key = 'pk.eyJ1IjoicmljaHdlbCIsImEiOiJjbTJybmJxZGIxZTB5MmpzYzM1aXBsN3FsIn0.F0USWlk8-B0ajt0sC5327Q'; //Obtain from Mapbox
+var traf_key = 'ESQADobiwh7cyC8WPyKBmYNmJWtlqbLA'; //Obtain from TomTom
 //Apperance settings. Fields left blank will use defaults. Will only refresh upon reload.
 var apperanceSettings = {
   iconSet:"2010", //2007 or 2010 or 2005
@@ -14,7 +14,7 @@ var apperanceSettings = {
   corebackgroud:"buildings", //forest, mountain, city, buildings, neighborhood, southwest, ocean. Default is buildings.
   backgroudType:"",//Set to
   backgroudURL:"",//If background type set to "custom" will use this url. URL can be a website or local file path.
-  marqueeAd: ["Please note this emulator is still in beta.", "You are watching an emulation of the Weatherscan IntelliStar system.", "This Weatherscan is US-centric but works internationally. Current weather in Manila, PH is shown. Modified as well to set units from Imperial to Metric."],
+  marqueeAd: ["Please note this emulator is still in beta.", "You are watching an emulation of the Weatherscan IntelliStar system.", "This Weatherscan is US-centric but works internationally. Current weather in Manila, PH is shown. Modified as well to set units from Imperial to Metric.", "Do note that Airport Delay Conditions outside US is not available, as FAA Source only covers US Airports. Always check with your airline and airports for annoucements." ],
 }
 var slideApperanceSettings = {//Ill add more options here eventually.
   localDoppler: {},
