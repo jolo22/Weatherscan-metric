@@ -1,7 +1,9 @@
 //Some of the settings may or may not work as this is not a fully completed update. Mainly Appearance settings and weather variables that arent finished.
 //Input API Keys below. If no API is inputted, sim will default to no report.
 var codeval
-
+var api_key = '<YOUR-API-KEY-HERE>'; //Obtain from Weather.com
+var map_key = '<YOUR-MAP-KEY-HERE>'; //Obtain from Mapbox
+var traf_key = '<YOUR-TRAFFIC-KEY-HERE>'; //Obtain from TomTom
 //Apperance settings. Fields left blank will use defaults. Will only refresh upon reload.
 var apperanceSettings = {
   iconSet:"2010", //2007 or 2010 or 2005
