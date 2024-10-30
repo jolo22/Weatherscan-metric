@@ -361,27 +361,27 @@ var weatherInfo = { currentCond: {
     {day:"",time:"",index:"",desc:""},
     {day:"",time:"",index:"",desc:""}
   ]}, airport: {noReport: false, mainairports:[
-    {displayname:"",iata:"MIA",arrivals:{delay:"No Delay",reason:""},departures:{delay:"No Delay",reason:""},temp:"",cond:"",icon:"",windspeed:""},
-    {displayname:"",iata:"MCO",arrivals:{delay:"No Delay",reason:""},departures:{delay:"No Delay",reason:""},temp:"",cond:"",icon:"",windspeed:""}
+    {displayname:"",iata:"MNL",arrivals:{delay:"No Delay",reason:""},departures:{delay:"No Delay",reason:""},temp:"",cond:"",icon:"",windspeed:""},
+    {displayname:"",iata:"CRK",arrivals:{delay:"No Delay",reason:""},departures:{delay:"No Delay",reason:""},temp:"",cond:"",icon:"",windspeed:""}
   ], delays: [],
     //{iato:"",type:"",amount:"",amountmin:"",reason:""}
    otherairports:[
-    {displayname:"New York / LaGuardia",iata:"LGA",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Ninoy Aquino Int'l Airport",iata:"MNL",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Mactan-Cebu Int'l Airport",iata:"CEB",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Davao International Airport",iata:"DVO",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Boracay Airport",iata:"MPH",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"New York / JFK",iata:"JFK",delay:"No Delay",temp:"",icon:"",windspeed:""},
     {displayname:"Chicago O'hare Int'l",iata:"ORD",delay:"No Delay",temp:"",icon:"",windspeed:""},
     {displayname:"Los Angeles Int'l",iata:"LAX",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Atlanta International",iata:"LAX",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Dallas / Ft. Worth Int'l",iata:"DFW",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Denver International",iata:"DEN",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Boston / Logan Int'l",iata:"BOS",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Salt Lake City Int'l",iata:"SLC",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Miami International",iata:"MIA",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Phoenix / Sky Harbor",iata:"PHX",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Minneapolis - St. Paul",iata:"MSP",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Washington Dulles Int'l",iata:"IAD",delay:"No Delay",temp:"",icon:"",windspeed:""},
     {displayname:"San Francisco Int'l",iata:"SFO",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Philadelphia Int'l",iata:"PHL",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Miami International",iata:"MIA",delay:"No Delay",temp:"",icon:"",windspeed:""},
     {displayname:"Seattle - Tacoma Int'l",iata:"SEA",delay:"No Delay",temp:"",icon:"",windspeed:""},
-    {displayname:"Lambert - St. Louis Int'l",iata:"STL",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Hong Kong Intl Airport",iata:"HKG",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Seoul-Incheon Int'l Airport",iata:"ICN",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Dubai Int'l Airport",iata:"DXB",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Doha-Hamad Int'l Airport",iata:"DOH",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"London-Heathrow Airport",iata:"LHR",delay:"No Delay",temp:"",icon:"",windspeed:""},
+    {displayname:"Tokyo-Narita Int'l Airport",iata:"NRT",delay:"No Delay",temp:"",icon:"",windspeed:""},
   ]},
   travel:{noReport:false,cities:[
    {displayname:"New York City",lat:"40.7306",lon:"-73.9352",days:[{dayName:"",icon:"",high:"",low:"",windspeed:""},{dayName:"",icon:"",high:"",low:"",windspeed:""},{dayName:"",icon:"",high:"",low:"",windspeed:""}]},
