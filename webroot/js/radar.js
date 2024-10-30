@@ -1,9 +1,9 @@
-var map, basemap, radarmain, sortedtimestamps, sortedtimestampsmini, satradsortedtimestamps, satellitemap, minimap, minibasemap, miniradar, interval, miniinterval;
+var map, tt, basemap, radarmain, sortedtimestamps, sortedtimestampsmini, satradsortedtimestamps, satellitemap, minimap, minibasemap, miniradar, interval, miniinterval;
 var customMap = false;
 
 function initBasemaps() {
 	//main map
-	mapboxgl.accessToken = map_key
+	mapboxgl.accessToken = map_key;
 	map = new mapboxgl.Map({
 		container: 'radar-3', // container ID
 		style: 'mapbox://styles/goldbblazez/cl10wz58y000q14ptdm3vkmxe', // style URL
@@ -21,7 +21,7 @@ function initBasemaps() {
 				'type': 'raster',
 					'tiles': [
 						//'http://127.0.0.1/cgi-bin/qgis_mapserv.fcgi.exe?map=E:/desktop/mecratorproject/mapprojectforlater.qgz&BBOX={bbox-epsg-3857}&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:3857&WIDTH=512&HEIGHT=512&LAYERS=USA_modified&format=image/png'
-						'https://api.mapbox.com/styles/v1/goldbblazez/cl6jfozbb001h15sdx9ze69f7/tiles/{z}/{x}/{y}?access_token=' + map_key
+						'https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=' + map_key
 						//'./test/{z}/{x}/{y}.png'
 					],
 					'tileSize': 512
@@ -707,7 +707,7 @@ function initBasemaps() {
 			'type': 'raster',
 				'tiles': [
 					//'http://127.0.0.1/cgi-bin/qgis_mapserv.fcgi.exe?map=E:/desktop/lambertproject/lambertmapforlatera.qgz&BBOX={bbox-epsg-3857}&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:3857&WIDTH=512&HEIGHT=512&LAYERS=Lambertmap_modified&format=image/png'
-					'https://api.mapbox.com/styles/v1/goldbblazez/cl6jfozbb001h15sdx9ze69f7/tiles/{z}/{x}/{y}?access_token=' + map_key
+					'https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=' + map_key
 					//'./lamberttest3/{z}/{x}/{y}.png'
 				],
 				'tileSize': 512
@@ -726,7 +726,7 @@ function initBasemaps() {
 		style: 'mapbox://styles/goldbblazez/cl11ctjbl000014s02fijkmyc', // style URL
 		center: [maincitycoords.lon, maincitycoords.lat], // starting position [lng, lat]
 		zoom: 6, // starting zoom
-		sprite: "mapbox://styles/goldbblazez/cl11ctjbl000014s02fijkmyc/f2jmfbiv3wccsb4w7xb1prfmc"
+		sprite: "mapbox://styles/mrlindstrom/clfq2p1kd000501t3a567s3bg/f2jmfbiv3wccsb4w7xb1prfmc"
 	});
 	minibasemap = new maplibregl.Map({
 		container: 'minimap-1', // container ID // style URL
@@ -736,7 +736,7 @@ function initBasemaps() {
 				'raster-tiles': {
 				'type': 'raster',
 					'tiles': [
-						'https://api.mapbox.com/styles/v1/goldbblazez/cl6jfozbb001h15sdx9ze69f7/tiles/{z}/{x}/{y}?access_token=' + map_key
+						'https://api.mapbox.com/styles/v1/goldbblazez/ckgc8lzdz4lzh19qt7q9wbbr9/tiles/{z}/{x}/{y}?access_token=' + map_key
 						//'http://127.0.0.1/cgi-bin/qgis_mapserv.fcgi.exe?map=E:/desktop/mecratorproject/mapprojectforlater.qgz&BBOX={bbox-epsg-3857}&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:3857&WIDTH=512&HEIGHT=512&LAYERS=USA_modified&format=image/png'
 						//'./test/{z}/{x}/{y}.png'
 					],
@@ -1414,7 +1414,7 @@ function Radar(divIDin, intervalHoursIn, zoomIn, latitudeIn, longitudeIn, withSa
 				zoomOffset: -1
 			}).addTo(map)
 		} else if (divID == "minimap") {
-			L.tileLayer('https://api.mapbox.com/styles/v1/goldbblazez/cl11ctjbl000014s02fijkmyc/draft/tiles/{z}/{x}/{y}?access_token=' + map_key, {
+			L.tileLayer('https://api.mapbox.com/styles/v1/goldbblazez/cl11ctjbl000014s02fijkmyc/publish/tiles/{z}/{x}/{y}?access_token=' + map_key, {
 				tileSize: 512,
 				zoomOffset: -1
 			}).addTo(map)
@@ -1499,3 +1499,28 @@ function Radar(divIDin, intervalHoursIn, zoomIn, latitudeIn, longitudeIn, withSa
         }
     });
 })()*/
+function trafficMap() {
+    tt = tt.map({
+        key: traf_key,
+        container: 'trafmap',
+        center: [maincitycoords.lon,maincitycoords.lat],
+        doubleClickZoom: false,
+        scrollZoom: false,
+        dragPan: false,
+        boxZoom: false,
+        dragRotate: false,
+        touchZoomRotate: false,
+        touchPitch: false,
+        pitchWithRotate: false,
+        zoom: 8.5,
+        style: "https://api.tomtom.com/style/2/custom/style/dG9tdG9tQEBAQW1IV1hMWktoeTllNUJYUjtmZTAyMzAwYy1iMjMzLTQ3NDktOTBiMC1mOGEyZGNhOWM5ZWM=.json?key=" + traf_key,
+        stylesVisibility: {
+            trafficFlow: true
+        },
+        });
+    }
+    //tt.resize()
+    /*function fadeTrafMap() {
+                $('#trafmap').fadeIn(500)
+                tt.resize()
+    }*/

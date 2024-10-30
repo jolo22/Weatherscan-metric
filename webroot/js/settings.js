@@ -147,6 +147,7 @@ function saveLocSettings() {
   grabHealthData()
   pullCCTickerData()
   buildHeaderGlobal()
+  grabTrafficData ()
 }
 //runs when weatherman returns info
 function updateonResetMainLoc() {

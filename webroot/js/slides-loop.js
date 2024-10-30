@@ -41,6 +41,10 @@ var maindiv = {
 	"beachConditions":".beach-slide",
 	"costalWatersAlerts":".beach-slide",
 	"costalWatersForecast":".beach-slide",
+	//Traffic
+	"trafficIntro":".traffic-slide-intro",
+	"trafficOverview":".traffic",
+	"trafficReport":".traffic",
 	//Health
 	"healthIntro":".health-slide-intro",
 	"healthForecast":".health",
@@ -59,6 +63,7 @@ var maindiv = {
 	"healthh":".health",
 	"travell":".travel",
 	"internationall":".international",
+	"trafficc":".traffic",
 }
 
 var mainDivHeaders = {
@@ -97,6 +102,10 @@ var mainDivHeaders = {
 	"beachConditions":"Surf Report",
 	"costalWatersAlerts":"Marine Forecast",
 	"costalWatersForecast":"Marine Forecast",
+	//Traffic
+	"trafficIntro":"",
+	"trafficOverview":"Traffic Overview",
+	"trafficReport":"Traffic Report",
 	//Health
 	"healthIntro":"",
 	"healthForecast":"Outdoor Activity",
@@ -144,6 +153,10 @@ var mainDivCityHeaders = {
 	"beachConditions":"",
 	"costalWatersAlerts":"",
 	"costalWatersForecast":"",
+	//Traffic
+	"trafficIntro":"",
+	"trafficOverview":"*trafficarea*",
+	"trafficReport":"*trafficarea*",
 	//Health
 	"healthIntro":"",
 	"healthForecast":"*healthlocation*",
@@ -640,7 +653,301 @@ var mainMap
 					}, slideDelay);
 				}
 			},
-			//health
+			
+			//traffic
+			trafficIntro() {
+				$('.traffic-slide-intro .accent').fadeIn(500);
+				$('.traffic-slide-intro .weatherscanmarquee').fadeIn(500);
+				$('.traffic-slide-intro .weatherscanmarquee').css('animation', 'marqueeweatherscan 5.5s linear normal forwards')
+				setTimeout(function() {
+					$('.traffic-slide-intro .segment').fadeIn(500);
+				}, 1000);
+				setTimeout(function() {
+					$('.traffic-slide-intro .segment').fadeOut(500)
+					$('.traffic-slide-intro .accent').fadeOut(500);
+					$('.traffic-slide-intro .weatherscanmarquee').fadeOut(500).promise().done(function(){
+						wait(0);
+					});
+				}, 5000);
+			}
+			,trafficOverview () {
+				weatherAudio.playTrafficConditions();
+				if (weatherInfo.trafficMapUnavailable == true) {
+					$('.info-slide.traffic .tempunavailable').fadeIn(500);
+					setTimeout(function() {
+						$('.info-slide.traffic .tempunavailable').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay);
+				} else {
+					$('.info-slide-content.traffic-overview').fadeIn(500);
+					tt.resize()
+					setTimeout(function() {
+						$('.info-slide-content.traffic-overview').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay);
+				}
+			}
+			,trafficReport() {
+				function hideBottom() {
+					$('.info-slide-content.traffic-report .frost-pane.blank').fadeIn(0);
+					$('.info-slide-content.traffic-report .thing-bot .thingbg').fadeOut(0);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').fadeOut(0);
+					$('.info-slide-content.traffic-report .description-bot').fadeOut(0);
+					$('.info-slide-content.traffic-report .frost-pane.bot').fadeOut(0);
+					$('.info-slide-content.traffic-report .impact-bot').fadeOut(0);
+				}
+				function showBottom() {
+					$('.info-slide-content.traffic-report .frost-pane.blank').fadeOut(0);
+					$('.info-slide-content.traffic-report .thing-bot .thingbg').fadeIn(0);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').fadeIn(0);
+					$('.info-slide-content.traffic-report .description-bot').fadeIn(0);
+					$('.info-slide-content.traffic-report .frost-pane.bot').fadeIn(0);
+					$('.info-slide-content.traffic-report .impact-bot').fadeIn(0);
+				}
+				if (weatherInfo.trafficIncidents.incidentcount == 1) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					hideBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+					
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay);
+				} else if (weatherInfo.trafficIncidents.incidentcount == 2) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[1].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+					showBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+					
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay);
+				} else if (weatherInfo.trafficIncidents.incidentcount == 3) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[1].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+					showBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						setTimeout(function() {
+						$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[2].title);
+						if (weatherInfo.trafficIncidents.incidents[2].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[2].impact);
+						$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[2].fulldesc);
+						hideBottom();
+						}, 250)
+						
+
+						$('.info-slide-content.traffic-report').fadeIn(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay*2);
+				} else if (weatherInfo.trafficIncidents.incidentcount == 4) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[1].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+					showBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						setTimeout(function() {
+						$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[2].title);
+						if (weatherInfo.trafficIncidents.incidents[2].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[2].impact);
+						$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[2].fulldesc);
+						$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[3].title);
+						if (weatherInfo.trafficIncidents.incidents[3].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[3].impact);
+						$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[3].fulldesc);
+						showBottom();
+						}, 250)
+						
+
+						$('.info-slide-content.traffic-report').fadeIn(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay*2);
+				} else if (weatherInfo.trafficIncidents.incidentcount == 5) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[1].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+					showBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						setTimeout(function() {
+						$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[2].title);
+						if (weatherInfo.trafficIncidents.incidents[2].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[2].impact);
+						$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[2].fulldesc);
+						$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[3].title);
+						if (weatherInfo.trafficIncidents.incidents[3].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[3].impact);
+						$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[3].fulldesc);
+						showBottom();
+						}, 250)
+						
+						$('.info-slide-content.traffic-report').fadeIn(250);
+
+						setTimeout(function() {
+							$('.info-slide-content.traffic-report').fadeOut(250);
+						}, slideDelay);	
+						setTimeout(function() {
+							setTimeout(function() {
+							$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[4].title);
+							if (weatherInfo.trafficIncidents.incidents[4].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+							$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[4].impact);
+							$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[4].fulldesc);
+							hideBottom();
+							}, 250)
+						
+							$('.info-slide-content.traffic-report').fadeIn(250);
+						}, slideDelay);
+					}, slideDelay);
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay*3);
+				} else if (weatherInfo.trafficIncidents.incidentcount >= 6) {
+					$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[1].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+					showBottom();
+
+					$('.info-slide-content.traffic-report').fadeIn(500);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(250);
+					}, slideDelay);
+
+					setTimeout(function() {
+						setTimeout(function() {
+						$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[2].title);
+						if (weatherInfo.trafficIncidents.incidents[2].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[2].impact);
+						$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[2].fulldesc);
+						$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[3].title);
+						if (weatherInfo.trafficIncidents.incidents[3].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+						$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[3].impact);
+						$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[3].fulldesc);
+						showBottom();
+						}, 250)
+						
+						$('.info-slide-content.traffic-report').fadeIn(250);
+
+						setTimeout(function() {
+							$('.info-slide-content.traffic-report').fadeOut(250);
+						}, slideDelay);	
+						setTimeout(function() {
+							setTimeout(function() {
+							$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[4].title);
+							if (weatherInfo.trafficIncidents.incidents[4].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+							$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[4].impact);
+							$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[4].fulldesc);
+							$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[5].title);
+							if (weatherInfo.trafficIncidents.incidents[5].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+							$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[5].impact);
+							$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[5].fulldesc);
+							showBottom();
+							}, 250)
+						
+							$('.info-slide-content.traffic-report').fadeIn(250);
+						}, slideDelay);
+					}, slideDelay);
+
+					setTimeout(function() {
+						$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+							wait(0);
+						});
+					}, slideDelay*3);
+				}
+
+
+				
+
+
+				/*setTimeout(function() {
+					$('.info-slide-content.traffic-report').fadeOut(500).promise().done(function(){
+						wait(0);
+					});
+				}, slideDelay*3);*/
+
+
+
+
+					/*$('.info-slide-content.traffic-report .thing-top .thingtext').text(weatherInfo.trafficIncidents.incidents[0].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-top').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-top').text(weatherInfo.trafficIncidents.incidents[0].impact);
+					$('.info-slide-content.traffic-report .description-top').text("           " +weatherInfo.trafficIncidents.incidents[0].fulldesc);
+					$('.info-slide-content.traffic-report .thing-bot .thingtext').text(weatherInfo.trafficIncidents.incidents[1].title);
+					if (weatherInfo.trafficIncidents.incidents[0].impact === "MEDIUM IMPACT ") {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#E6EC46")} else if ((weatherInfo.trafficIncidents.incidents[0].impact === "HIGH IMPACT ")) {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#FE2C2D")} else {$('.info-slide-content.traffic-report .impact-bot').css("background-color", "#3DD135")};
+					$('.info-slide-content.traffic-report .impact-bot').text(weatherInfo.trafficIncidents.incidents[1].impact);
+					$('.info-slide-content.traffic-report .description-bot').text("           " +weatherInfo.trafficIncidents.incidents[1].fulldesc);
+*/
+
+					
+			},
 			healthIntro() {
 				$('.health-slide-intro .accent').fadeIn(500);
 				$('.health-slide-intro .weatherscanmarquee').fadeIn(500);
@@ -1565,7 +1872,6 @@ var mainMap
 				} else {
 					moveHeader++
 					const prevDivs = $(header + ' .city.current').prevAll()
-					console.log($(header + ' .city.current').nextAll('.city').add(header + ' .city.current'))
 					divTest = $(header + ' .city.current').nextAll('.city').add(header + ' .city.current')[moveHeader]
 				}
 				keys = JSON.parse(divTest.dataset.slideorder)
@@ -1575,7 +1881,7 @@ var mainMap
 				//reset skip for next go around.
 				keys[idx].skipped = false
 				divTest.dataset.slideorder = JSON.stringify(keys)
-				console.log(divTest.dataset.slideorder)
+				
 				idx++;
 				grabTestDiv()
 			}
@@ -1635,7 +1941,7 @@ var mainMap
 					var ogSlide
 					if (!keysNext[preloadIdx].originalSlide) {
 						ogSlide = JSON.parse(divTestNext.dataset.slideorder)
-						console.log(ogSlide[preloadIdx])
+						
 					}
 					keysNext[preloadIdx] = keysNext[preloadIdx].alternate
 					keysNext[preloadIdx].originalSlide = ogSlide[preloadIdx]
@@ -1662,12 +1968,12 @@ var mainMap
 				$(maindiv[keys[idx].name]).fadeIn(0)
 			}
 			if (mainDivHeaders[keys[idx].name] != '') $(maindiv[keys[idx].name] + ' .subhead-title').text(mainDivHeaders[keys[idx].name].replace('*daytitle*',weatherInfo.dayPart.weatherLocs[location].daytitle).replace('*none*',''));
-			if (mainDivCityHeaders[keys[idx].name] != '') $(maindiv[keys[idx].name] + ' #subhead-city').text(mainDivCityHeaders[keys[idx].name].replace('*currentConditionsLocation*',weatherInfo.currentCond.weatherLocs[location].displayname).replace('*dayPartLocation*',weatherInfo.dayPart.weatherLocs[location].displayname).replace('*dayDescLocation*',weatherInfo.dayDesc.weatherLocs[location].displayname).replace('*extendedForecastLocation*',weatherInfo.fiveDay.weatherLocs[location].displayname).replace('*almanacLocation*',weatherInfo.almanac.displayname).replace('*none*','').replace('*currentConditionsEnding*',slideApperanceSettings.currentConditions.cityHeaderEnding).replace('*dayPartEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*dayDescEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*extendedForecastEnding*',slideApperanceSettings.extendedForecast.cityHeaderEnding).replace('*almanacEnding*',slideApperanceSettings.almanac.cityHeaderEnding).replace('*healthlocation*',weatherInfo.healthforecast.displayname));
+			if (mainDivCityHeaders[keys[idx].name] != '') $(maindiv[keys[idx].name] + ' #subhead-city').text(mainDivCityHeaders[keys[idx].name].replace('*currentConditionsLocation*',weatherInfo.currentCond.weatherLocs[location].displayname).replace('*dayPartLocation*',weatherInfo.dayPart.weatherLocs[location].displayname).replace('*dayDescLocation*',weatherInfo.dayDesc.weatherLocs[location].displayname).replace('*extendedForecastLocation*',weatherInfo.fiveDay.weatherLocs[location].displayname).replace('*almanacLocation*',weatherInfo.almanac.displayname).replace('*none*','').replace('*currentConditionsEnding*',slideApperanceSettings.currentConditions.cityHeaderEnding).replace('*dayPartEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*dayDescEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*extendedForecastEnding*',slideApperanceSettings.extendedForecast.cityHeaderEnding).replace('*almanacEnding*',slideApperanceSettings.almanac.cityHeaderEnding).replace('*healthlocation*',weatherInfo.healthforecast.displayname).replace('*trafficarea*',(maincitycoords.displayname + " Area")));
 		}
 		//preload if the next info-slide is not the same.
 		if (maindiv[keys[idx].name] != maindiv[keysNext[preloadIdx].name]) {
 			if (mainDivHeaders[keysNext[preloadIdx].name] != '') $(maindiv[keysNext[preloadIdx].name] + ' .subhead-title').text(mainDivHeaders[keysNext[preloadIdx].name].replace('*daytitle*',weatherInfo.dayPart.weatherLocs[location].daytitle).replace('*none*',''));
-			if (mainDivCityHeaders[keysNext[preloadIdx].name] != '') $(maindiv[keysNext[preloadIdx].name] + ' #subhead-city').text(mainDivCityHeaders[keysNext[preloadIdx].name].replace('*currentConditionsLocation*',weatherInfo.currentCond.weatherLocs[location].displayname).replace('*dayPartLocation*',weatherInfo.dayPart.weatherLocs[location].displayname).replace('*dayDescLocation*',weatherInfo.dayDesc.weatherLocs[location].displayname).replace('*extendedForecastLocation*',weatherInfo.fiveDay.weatherLocs[location].displayname).replace('*almanacLocation*',weatherInfo.almanac.displayname).replace('*none*','').replace('*currentConditionsEnding*',slideApperanceSettings.currentConditions.cityHeaderEnding).replace('*dayPartEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*dayDescEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*extendedForecastEnding*',slideApperanceSettings.extendedForecast.cityHeaderEnding).replace('*almanacEnding*',slideApperanceSettings.almanac.cityHeaderEnding).replace('*healthlocation*',weatherInfo.healthforecast.displayname));
+			if (mainDivCityHeaders[keysNext[preloadIdx].name] != '') $(maindiv[keysNext[preloadIdx].name] + ' #subhead-city').text(mainDivCityHeaders[keysNext[preloadIdx].name].replace('*currentConditionsLocation*',weatherInfo.currentCond.weatherLocs[location].displayname).replace('*dayPartLocation*',weatherInfo.dayPart.weatherLocs[location].displayname).replace('*dayDescLocation*',weatherInfo.dayDesc.weatherLocs[location].displayname).replace('*extendedForecastLocation*',weatherInfo.fiveDay.weatherLocs[location].displayname).replace('*almanacLocation*',weatherInfo.almanac.displayname).replace('*none*','').replace('*currentConditionsEnding*',slideApperanceSettings.currentConditions.cityHeaderEnding).replace('*dayPartEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*dayDescEnding*',slideApperanceSettings.dayPart.cityHeaderEnding).replace('*extendedForecastEnding*',slideApperanceSettings.extendedForecast.cityHeaderEnding).replace('*almanacEnding*',slideApperanceSettings.almanac.cityHeaderEnding).replace('*healthlocation*',weatherInfo.healthforecast.displayname).replace('*trafficarea*',(maincitycoords.displayname + " Area")));
 			$(maindiv[keysNext[preloadIdx].name]).addClass("preload")
 			$(maindiv[keysNext[preloadIdx].name]).fadeIn(0)
 		}
@@ -1783,7 +2089,6 @@ var mainMap
 			function(){
 				// on completion, move the old one to the end
 				$scroller.css('left','');
-				console.log($cities)
 				for (var i = 0; i < $prevCities.length; i++) {
 					if ($prevCities[i].dataset.repeat == true || $prevCities[i].dataset.repeat == 'true') {
 						$(header + ' .hscroller').append('<span class="divider-arrow" style="font-family: Zemestro Std ">&lt;</span>')
@@ -1815,6 +2120,7 @@ var mainMap
 				"radar":'<span class="city radar" data-slide="radar" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>LOCAL RADAR</span>`,
 				"golf":'<span class="city golf" data-slide="golf" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>GOLF</span>`,
 				"beach":'<span class="city beach" data-slide="beach" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>BOAT & BEACH</span>`,
+				"traffic":'<span class="city trafficc" data-slide="trafficc" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>TRAFFIC</span>`,
 				"health":'<span class="city healthh" data-slide="healthh" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>HEALTH</span>`,
 				"airport":'<span class="city airport" data-slide="airport" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>AIRPORTS</span>`,
 				"travel":'<span class="city travell" data-slide="travell" data-divOrder="'+slideVal+ ((loopComplete == true) ? '" data-loopComplete="true"':'"')+' data-locIdx="'+locIdxVal+'" data-repeat="'+repeatVal+'" data-slideDelay="'+slideDelayVal+'"' + `data-slideOrder='${slideOrderVal}'>TRAVEL</span>`,
@@ -1841,7 +2147,7 @@ var mainMap
 			}
 			if (slideLoopSettings.order[slide].locidx.includes('reverse')) locIdxOrder.reverse();
 			if (slideLoopSettings.order[slide].locidx.includes('random')) shuffle(locIdxOrder);
-			console.log(locIdxOrder)
+			
 			for (var loc = 0; loc < locIdxOrder.length; loc++) {
 				$('#slides-header .hscroller').append(((totalSlides > 0) ? arrow : "") + grabDiv(slideLoopSettings.order[slide].type, locIdxOrder[loc], totalSlides, ((slideLoopSettings.order[slide].repeat.length) ? slideLoopSettings.order[slide].repeat[loc % slideLoopSettings.order[slide].repeat.length] : slideLoopSettings.order[slide].repeat), ((slideLoopSettings.order[slide].slideDelay.length) ? slideLoopSettings.order[slide].slideDelay[loc % slideLoopSettings.order[slide].slideDelay.length] : slideLoopSettings.order[slide].slideDelay), ((slideLoopSettings.order[slide].slideOrders) ? JSON.stringify(slideLoopSettings.order[slide].slideOrders[loc % slideLoopSettings.order[slide].slideOrders.length]) : JSON.stringify(slideLoopSettings.order[slide].slideOrder)).replaceAll('replaceLocIdx',locIdxOrder[loc]), slideLoopSettings.order[slide].loopComplete));
 				totalSlides += 1
